@@ -1,0 +1,11 @@
+/.vs
+*.suo
+*.user
+_ReSharper.*
+bin/
+obj/
+packages
+.sonarqube
+coverage.xml
+data.csv
+fields.json

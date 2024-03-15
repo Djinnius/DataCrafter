@@ -1,2 +1,1 @@
-# OpenSourceRepoTemplate
-OpenSourceRepoTemplate
+# Generate Development Environment Data
