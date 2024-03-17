@@ -17,6 +17,7 @@ using DataCrafter.Commands.DataFrameColumns.Uniform;
 using DataCrafter.Commands.Distributions.Details;
 using DataCrafter.Commands.Distributions.DistributionTypesSummary;
 using DataCrafter.Commands.GPT;
+using DataCrafter.Commands.StatisticalDefinitions;
 using DataCrafter.DependencyInjection;
 using DataCrafter.Options;
 using DataCrafter.Options.WritableOptions;
@@ -228,6 +229,22 @@ app.Configure(config =>
         }).WithAlias("s");
     }).WithAlias("di");
 
+    config.AddBranch("definitions", definitions =>
+    {
+        definitions.SetDescription("Statistical definitions and examples.");
+
+        definitions.AddCommand<SkewnessKurtosisDetailsCommand>("skewness")
+           .WithAlias("sk")
+           .WithDescription("Prints a description of Skewness and kurtosis.")
+           .WithExample(["definitions", "skewness"]);
+
+        definitions.AddCommand<SkewnessKurtosisDetailsCommand>("kurtosis")
+           .WithAlias("ku")
+           .WithDescription("Prints a description of Skewness and kurtosis.")
+           .WithExample(["definitions", "kurtosis"]);
+
+    }).WithAlias("def");
+
     config.AddBranch("gpt", gpt =>
     {
         gpt.SetDescription("Access to chat GPT.");
@@ -253,6 +270,7 @@ app.Configure(config =>
 #endif
 
 // Code to run the tool when installed as a tool.
+#pragma warning disable CS8321 // Local function is declared but never used
 static async Task Run(CommandApp app, IServiceCollection serviceCollection, string[] args)
 {
     try
@@ -276,6 +294,7 @@ static async Task RunDebug(IServiceCollection serviceCollection)
     var main = serviceProvider.GetRequiredService<Main>();
     await main.Execute();
 }
+#pragma warning restore CS8321 // Local function is declared but never used
 
 // Common code when running both in debug and as a release tool.
 static void OnRun(ServiceProvider serviceProvider)

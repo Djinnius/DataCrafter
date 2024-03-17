@@ -1,6 +1,5 @@
 ﻿using DataCrafter.Services.ConsoleWriters;
 using DataCrafter.Services.Repositories;
-using MathNet.Numerics.Statistics;
 using Spectre.Console;
 using Spectre.Console.Cli;
 

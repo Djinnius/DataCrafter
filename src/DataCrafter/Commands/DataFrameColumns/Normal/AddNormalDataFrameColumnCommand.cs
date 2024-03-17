@@ -1,6 +1,5 @@
-﻿using DataCrafter.Commands.DataFrameColumns;
-using DataCrafter.DistributionConfigurations;
-using DataCrafter.Entities;
+﻿using DataCrafter.Entities;
+using DataCrafter.Pocos.DistributionConfigurations;
 using DataCrafter.Services.ConsoleWriters;
 using DataCrafter.Services.Repositories;
 using FluentValidation;

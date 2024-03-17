@@ -1,18 +1,14 @@
-﻿using System.Text.Json.Nodes;
-using Accord.Statistics.Analysis;
-using Accord.Statistics.Distributions;
-using DataCrafter.Commands.Distributions.Details;
-using DataCrafter.DistributionConfigurations;
+﻿using DataCrafter.Commands.Distributions.Details;
 using DataCrafter.Entities;
 using DataCrafter.Options;
 using DataCrafter.Options.WritableOptions;
+using DataCrafter.Pocos.DistributionConfigurations;
 using DataCrafter.Services.Bogus;
 using DataCrafter.Services.ConsoleWriters;
 using DataCrafter.Services.Distributions;
 using DataCrafter.Services.FileIO;
 using Microsoft.Extensions.Options;
 using Spectre.Console;
-using static DataCrafter.Services.ConsoleWriters.DistributionDetailsConsoleWriter;
 
 namespace DataCrafter.Services.Main;
 internal class Main

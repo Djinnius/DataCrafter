@@ -182,6 +182,8 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
         table.AddColumn("[u]Variance[/]");
         table.AddColumn("[u]Support Min[/]");
         table.AddColumn("[u]Support Max[/]");
+        table.AddColumn("[u]Skewness[/]");
+        table.AddColumn("[u]Kurtosis[/]");
 
         foreach (var column in columns)
         {
@@ -197,7 +199,9 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
                 column.Value.StandardDeviation.ToString("F2"),
                 column.Value.Variance.ToString("F2"),
                 column.Value.Minimum.ToString("F2"),
-                column.Value.Maximum.ToString("F2")
+                column.Value.Maximum.ToString("F2"),
+                column.Value.Skewness.ToString("F2"),
+                column.Value.Kurtosis.ToString("F2")
             );
         }
 
@@ -238,34 +242,25 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
             { "Variance", new List<string>() },
             { "Min", new List<string>() },
             { "Max", new List<string>() },
-            //{ "Skewness", new List<string>() },
-            //{ "Kurtosis", new List<string>() }
+            { "Skewness", new List<string>() },
+            { "Kurtosis", new List<string>() }
         };
 
-        foreach (var column in columns)
+        foreach (var column in columns.Select(x => x.Value))
         {
             //statisticsByType["Data Type"].Add(dataFrameColumn.Type);
             //statisticsByType["Distribution"].Add(univariateDistribution?.ToString() ?? string.Empty);
-            statisticsByType["Mean"].Add(column.Value!.Mean.ToString("F2"));
-            statisticsByType["Mode"].Add(column.Value.Mode.ToString("F2"));
-            statisticsByType["Q1"].Add(column.Value.Q1.ToString("F2"));
-            statisticsByType["Median"].Add(column.Value.Median.ToString("F2"));
-            statisticsByType["Q3"].Add(column.Value.Q3.ToString("F2"));
-            statisticsByType["Standard Deviation"].Add(column.Value.StandardDeviation.ToString("F2"));
-            statisticsByType["Variance"].Add(column.Value.Variance.ToString("F2"));
-            statisticsByType["Min"].Add(column.Value.Minimum.ToString("F2"));
-            statisticsByType["Max"].Add(column.Value.Maximum.ToString("F2"));
-
-            //if (dataFrameColumn.Distribution is NormalDistribution normalDistribution)
-            //{
-            //    statisticsByType["Skewness"].Add(normalDistribution.Skewness.ToString("F2"));
-            //    statisticsByType["Kurtosis"].Add(normalDistribution.Kurtosis.ToString("F2"));
-            //}
-            //else
-            //{
-            //    statisticsByType["Skewness"].Add(string.Empty);
-            //    statisticsByType["Kurtosis"].Add(string.Empty);
-            //}
+            statisticsByType["Mean"].Add(column!.Mean.ToString("F2"));
+            statisticsByType["Mode"].Add(column.Mode.ToString("F2"));
+            statisticsByType["Q1"].Add(column.Q1.ToString("F2"));
+            statisticsByType["Median"].Add(column.Median.ToString("F2"));
+            statisticsByType["Q3"].Add(column.Q3.ToString("F2"));
+            statisticsByType["Standard Deviation"].Add(column.StandardDeviation.ToString("F2"));
+            statisticsByType["Variance"].Add(column.Variance.ToString("F2"));
+            statisticsByType["Min"].Add(column.Minimum.ToString("F2"));
+            statisticsByType["Max"].Add(column.Maximum.ToString("F2"));
+            statisticsByType["Skewness"].Add(column.Skewness.ToString("F2"));
+            statisticsByType["Kurtosis"].Add(column.Kurtosis.ToString("F2"));
         }
 
         return statisticsByType;

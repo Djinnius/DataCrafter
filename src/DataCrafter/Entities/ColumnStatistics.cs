@@ -11,6 +11,8 @@ internal sealed class ColumnStatistics
     private double? _variance;
     private double? _minimum;
     private double? _maximum;
+    private double? _skewness;
+    private double? _kurtosis;
     private int _count;
 
     public ColumnStatistics(int count = default)
@@ -39,7 +41,10 @@ internal sealed class ColumnStatistics
     public double StandardDeviation => _standardDeviation ??= Accord.Statistics.Measures.StandardDeviation(_values);
     public double Variance => _variance ??= Accord.Statistics.Measures.Variance(_values);
     public double Minimum => _minimum ??= _values.Min();
-    public double Maximum => _maximum ??= _values.Max();
+    public double Maximum => _maximum ??= _values.Max(); 
+    public double Skewness => _skewness ??= Accord.Statistics.Measures.Skewness(_values);
+    public double Kurtosis => _kurtosis ??= Accord.Statistics.Measures.Kurtosis(_values);
+
 
     private double GetQ1()
     {

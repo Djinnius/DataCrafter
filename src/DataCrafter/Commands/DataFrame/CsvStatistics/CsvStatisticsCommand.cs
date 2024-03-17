@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using CsvHelper;
+﻿using CsvHelper;
 using DataCrafter.Services.ConsoleWriters;
 using Spectre.Console;
 using Spectre.Console.Cli;
+using System.Globalization;
 
 namespace DataCrafter.Commands.DataFrame.CsvStatistics;
 internal sealed class CsvStatisticsCommand : Command<CsvStatisticsCommandSettings>

@@ -5,7 +5,6 @@ using DataCrafter.Services.ConsoleWriters;
 using Spectre.Console.Cli;
 using Spectre.Console;
 using FluentValidation;
-using DataCrafter.Commands.DataFrameColumns.Plot;
 
 namespace DataCrafter.Commands.DataFrame.PlotCsvColumn;
 internal sealed class PlotCsvColumnCommand : Command<PlotCsvColumnCommandSettings>

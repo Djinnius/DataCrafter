@@ -1,10 +1,10 @@
-﻿using DataCrafter.DistributionConfigurations;
-using DataCrafter.Entities;
+﻿using DataCrafter.Entities;
+using DataCrafter.Pocos.DistributionConfigurations;
+using DataCrafter.Services.ConsoleWriters;
 using DataCrafter.Services.Repositories;
 using FluentValidation;
-using Spectre.Console.Cli;
 using Spectre.Console;
-using DataCrafter.Services.ConsoleWriters;
+using Spectre.Console.Cli;
 
 namespace DataCrafter.Commands.DataFrameColumns.LogNormal;
 

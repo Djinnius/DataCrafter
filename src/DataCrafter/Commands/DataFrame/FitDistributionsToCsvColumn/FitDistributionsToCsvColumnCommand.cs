@@ -3,7 +3,6 @@ using DataCrafter.Commands.DataFrame.CsvStatistics;
 using System.Globalization;
 using Spectre.Console;
 using Spectre.Console.Cli;
-using DataCrafter.Commands.DataFrame.PlotCsvColumn;
 using FluentValidation;
 using Accord.Statistics.Analysis;
 using DataCrafter.Services.Distributions;
