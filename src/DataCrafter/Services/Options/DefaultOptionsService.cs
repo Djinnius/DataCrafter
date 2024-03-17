@@ -1,7 +1,8 @@
-﻿using DataCrafter.Options.WritableOptions;
+﻿using DataCrafter.Options;
+using DataCrafter.Options.WritableOptions;
 using Spectre.Console;
 
-namespace DataCrafter.Options;
+namespace DataCrafter.Services.Options;
 internal sealed class DefaultOptionsService : IDefaultOptionsService
 {
     private readonly IAnsiConsole _ansiConsole;

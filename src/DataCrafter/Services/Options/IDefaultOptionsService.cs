@@ -1,4 +1,4 @@
-﻿namespace DataCrafter.Options;
+﻿namespace DataCrafter.Services.Options;
 
 internal interface IDefaultOptionsService
 {
