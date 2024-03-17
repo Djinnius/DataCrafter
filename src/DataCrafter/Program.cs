@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using DataCrafter.Commands.DataFrame.CsvStatistics;
+﻿using DataCrafter.Commands.DataFrame.CsvStatistics;
 using DataCrafter.Commands.DataFrame.FitDistributionsToCsvColumn;
 using DataCrafter.Commands.DataFrame.Generate;
 using DataCrafter.Commands.DataFrame.PlotCsvColumn;
@@ -41,18 +40,19 @@ static IConfigurationRoot LoadConfiguration()
     var appSettingsFileName = "appsettings.json";
     var appSettingsPath = Path.Combine(appDataPath, appSettingsFileName);
 
+    Directory.CreateDirectory(appDataPath);
+
     return new ConfigurationBuilder()
         .SetBasePath(appDataPath)
         .AddJsonFile(appSettingsPath, optional: true, reloadOnChange: true)
         .Build();
 }
 
-
 var configuration = LoadConfiguration();
 
 // Note: New tree resolved for every command in the command line i.e. Singleton instances
 // are not shared between commands.
-var serviceProvider = new ServiceCollection()
+var serviceCollection = new ServiceCollection()
             .AddScoped<Main>()
             .AddSingleton(AnsiConsole.Console) // Can inject IAnsiConsole
             .AddSingleton<IGeneratedDataConsoleWriter, GeneratedDataConsoleWriter>()
@@ -100,7 +100,7 @@ var serviceProvider = new ServiceCollection()
             .ConfigureWritable<DataCrafterOptions>(configuration, DataCrafterOptions.SectionName)
             .ConfigureWritable<ApiKeysOptions>(configuration, ApiKeysOptions.SectionName);
 
-var registrar = new TypeRegistrar(serviceProvider);
+var registrar = new TypeRegistrar(serviceCollection);
 var app = new CommandApp(registrar);
 
 app.Configure(config =>
@@ -244,21 +244,41 @@ app.Configure(config =>
     //#endif
 });
 
-var sp = serviceProvider.BuildServiceProvider();
 
-var defaultOptionsService = sp.GetRequiredService<IDefaultOptionsService>();
-defaultOptionsService.SetDefaultValues();
+#if DEBUG
+    await RunDebug(serviceProvider);
+#else
+    await Run(app, serviceCollection, args);
+#endif
 
-#pragma warning disable S125 // Sections of code should not be commented out
-//var main = sp.GetRequiredService<Main>();
-//await main.Execute();
-#pragma warning restore S125 // Sections of code should not be commented out
-
-try
+// Code to run the tool when installed as a tool.
+static async Task Run(CommandApp app, IServiceCollection serviceCollection, string[] args)
 {
-    await app.RunAsync(args);
+    try
+    {
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+        OnRun(serviceProvider);
+        await app.RunAsync(args);
+    }
+    catch (Exception e)
+    {
+        AnsiConsole.WriteException(e);
+    }
 }
-catch (Exception e)
+
+// Code to run when debugging, in this case whatever test code is in Main.
+// To test the tool, requires installing, see the install.bat file.
+static async Task RunDebug(IServiceCollection serviceCollection)
 {
-    AnsiConsole.WriteException(e);
+    var serviceProvider = serviceCollection.BuildServiceProvider();
+    OnRun(serviceProvider);
+    var main = serviceProvider.GetRequiredService<Main>();
+    await main.Execute();
+}
+
+// Common code when running both in debug and as a release tool.
+static void OnRun(ServiceProvider serviceProvider)
+{
+    var defaultOptionsService = serviceProvider.GetRequiredService<IDefaultOptionsService>();
+    defaultOptionsService.SetDefaultValues();
 }

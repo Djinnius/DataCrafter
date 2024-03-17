@@ -1,12 +1,17 @@
 ﻿using DataCrafter.Options.WritableOptions;
+using Spectre.Console;
 
 namespace DataCrafter.Options;
 internal sealed class DefaultOptionsService : IDefaultOptionsService
 {
+    private readonly IAnsiConsole _ansiConsole;
     private readonly IWritableOptions<DataCrafterOptions> _dataCrafterOptions;
 
-    public DefaultOptionsService(IWritableOptions<DataCrafterOptions> dataCrafterOptions)
+    public DefaultOptionsService(
+        IAnsiConsole ansiConsole,
+        IWritableOptions<DataCrafterOptions> dataCrafterOptions)
     {
+        _ansiConsole = ansiConsole;
         _dataCrafterOptions = dataCrafterOptions;
     }
 
@@ -25,6 +30,8 @@ internal sealed class DefaultOptionsService : IDefaultOptionsService
                 x.IsDeterministic = true;
                 x.Seed = 999;
             });
+
+            _ansiConsole.MarkupLine($"Default settings file created: [green]{appSettingsPath}[/]");
         }
     }
 }
