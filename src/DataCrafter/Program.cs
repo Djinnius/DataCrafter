@@ -246,7 +246,7 @@ app.Configure(config =>
 
 
 #if DEBUG
-    await RunDebug(serviceProvider);
+    await RunDebug(serviceCollection);
 #else
     await Run(app, serviceCollection, args);
 #endif
