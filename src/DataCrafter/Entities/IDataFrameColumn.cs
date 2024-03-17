@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Accord.Statistics.Distributions;
-using DataCrafter.DistributionConfigurations;
+using DataCrafter.Pocos.DistributionConfigurations;
 
 namespace DataCrafter.Entities;
 

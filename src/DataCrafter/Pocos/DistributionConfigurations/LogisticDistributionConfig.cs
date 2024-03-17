@@ -1,4 +1,4 @@
-﻿namespace DataCrafter.DistributionConfigurations;
+﻿namespace DataCrafter.Pocos.DistributionConfigurations;
 internal sealed class LogisticDistributionConfig : IDistributionConfig
 {
     public string DistributionType => "Logistic";

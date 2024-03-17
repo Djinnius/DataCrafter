@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DataCrafter.DistributionConfigurations;
+namespace DataCrafter.Pocos.DistributionConfigurations;
 
 [JsonDerivedType(typeof(UniformDistributionConfig), "Uniform")]
 [JsonDerivedType(typeof(LogNormalDistributionConfig), "LogNormal")]

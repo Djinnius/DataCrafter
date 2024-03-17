@@ -1,4 +1,4 @@
-﻿namespace DataCrafter.DistributionConfigurations;
+﻿namespace DataCrafter.Pocos.DistributionConfigurations;
 
 public class LogNormalDistributionConfig : IDistributionConfig
 {

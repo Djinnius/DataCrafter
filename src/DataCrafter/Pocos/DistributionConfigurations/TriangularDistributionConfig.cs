@@ -1,4 +1,4 @@
-﻿namespace DataCrafter.DistributionConfigurations;
+﻿namespace DataCrafter.Pocos.DistributionConfigurations;
 internal sealed class TriangularDistributionConfig : IDistributionConfig
 {
     public string DistributionType => "Triangular";
