@@ -1,5 +1,4 @@
 ﻿using CsvHelper;
-using DataCrafter.Commands.DataFrame.CsvStatistics;
 using System.Globalization;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -7,6 +6,7 @@ using FluentValidation;
 using Accord.Statistics.Analysis;
 using DataCrafter.Services.Distributions;
 using Accord.Statistics.Distributions;
+using DataCrafter.Entities;
 
 namespace DataCrafter.Commands.DataFrame.FitDistributionsToCsvColumn;
 internal sealed class FitDistributionsToCsvColumnCommand : Command<FitDistributionsToCsvColumnCommandSettings>
@@ -62,7 +62,7 @@ internal sealed class FitDistributionsToCsvColumnCommand : Command<FitDistributi
                 da.Distributions.Add(fittableDistribution);
         }
 
-        var fit = da.Learn(columnStatistics.Values);
+        var fit = da.Learn(columnStatistics.ValuesArray);
 
         AnsiConsole.WriteLine();
         AnsiConsole.WriteLine("Results");

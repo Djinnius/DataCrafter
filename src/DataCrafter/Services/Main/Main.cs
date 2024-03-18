@@ -1,4 +1,5 @@
-﻿using DataCrafter.Commands.Distributions.Details;
+﻿using DataCrafter.Commands.DataFrame.ShapiroWilk;
+using DataCrafter.Commands.Distributions.Details;
 using DataCrafter.Entities;
 using DataCrafter.Options;
 using DataCrafter.Options.WritableOptions;
@@ -95,6 +96,9 @@ internal class Main
             }
         };
 
+        var command = new ShapiroWilkTestCommand(AnsiConsole.Console, null);
+        //command.Test();
+
         //_apiKeyOptions.Update(x => x.OpenAI = "Test");
 
         //var appSettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DataCrafter", "appsettings.json");
@@ -102,8 +106,8 @@ internal class Main
         //var jsonNode = JsonNode.Parse(jsonData);
         //jsonNode["TestData"]["Name"] = "John";
 
-        var command = new NormalDistributionDetailsCommand(AnsiConsole.Console);
-        await command.Test();
+        //var command = new NormalDistributionDetailsCommand(AnsiConsole.Console);
+        //await command.Test();
 
         //var path = Path.Combine(Directory.GetCurrentDirectory(), "data.csv");
 

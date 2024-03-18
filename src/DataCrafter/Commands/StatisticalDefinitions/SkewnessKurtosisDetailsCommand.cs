@@ -3,7 +3,7 @@ using Spectre.Console.Cli;
 
 namespace DataCrafter.Commands.StatisticalDefinitions;
 
-internal sealed class SkewnessKurtosisDetailsCommand : AsyncCommand
+internal sealed class SkewnessKurtosisDetailsCommand : Command
 {
     private readonly IAnsiConsole _ansiConsole;
 
@@ -12,7 +12,7 @@ internal sealed class SkewnessKurtosisDetailsCommand : AsyncCommand
         _ansiConsole = ansiConsole ?? throw new ArgumentNullException(nameof(ansiConsole));
     }
 
-    public override async Task<int> ExecuteAsync(CommandContext context)
+    public override int Execute(CommandContext context)
     {
         PrintSkewnessExplanation();
         PrintKurtosisExplanation();

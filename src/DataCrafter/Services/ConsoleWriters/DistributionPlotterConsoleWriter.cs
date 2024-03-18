@@ -1,5 +1,4 @@
 ﻿using Accord.Statistics.Distributions;
-using DataCrafter.Commands.DataFrame.CsvStatistics;
 using DataCrafter.Entities;
 using DataCrafter.Services.Mappers;
 using Spectre.Console;

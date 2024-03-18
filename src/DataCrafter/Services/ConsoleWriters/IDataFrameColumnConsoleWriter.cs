@@ -1,5 +1,4 @@
-﻿using DataCrafter.Commands.DataFrame.CsvStatistics;
-using DataCrafter.Entities;
+﻿using DataCrafter.Entities;
 
 namespace DataCrafter.Services.ConsoleWriters;
 internal interface IDataFrameColumnConsoleWriter

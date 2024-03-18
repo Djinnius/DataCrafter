@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using DataCrafter.Entities;
 using DataCrafter.Services.ConsoleWriters;
 using Spectre.Console;
 using Spectre.Console.Cli;

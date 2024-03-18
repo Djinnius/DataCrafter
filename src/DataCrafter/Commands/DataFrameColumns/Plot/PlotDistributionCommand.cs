@@ -50,7 +50,7 @@ internal sealed class PlotDistributionCommand : Command<PlotDistributionCommandS
 
         if (column.Distribution is not IUnivariateDistribution univariateDistribution)
         {
-            _ansiConsole.MarkupLine($"[orange]{column.Distribution.ToString} is not a univariate distribution and is not supported with this command.[/]");
+            _ansiConsole.MarkupLine($"[darkorange3_1]{column.Distribution.ToString} is not a univariate distribution and is not supported with this command.[/]");
             return -1;
         }
 

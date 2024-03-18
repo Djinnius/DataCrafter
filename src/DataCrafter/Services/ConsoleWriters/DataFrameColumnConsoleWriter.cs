@@ -1,6 +1,5 @@
 ﻿using Accord.Statistics.Distributions;
 using Accord.Statistics.Distributions.Univariate;
-using DataCrafter.Commands.DataFrame.CsvStatistics;
 using DataCrafter.Entities;
 using Spectre.Console;
 

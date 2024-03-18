@@ -1,7 +1,8 @@
-﻿namespace DataCrafter.Commands.DataFrame.CsvStatistics;
+﻿namespace DataCrafter.Entities;
 internal sealed class ColumnStatistics
 {
-    private double[] _values = [];
+    private readonly List<double> _valuesList = new List<double>();
+    private double[] _valuesArray = [];
     private double? _mean;
     private double? _mode;
     private double? _q1;
@@ -13,42 +14,44 @@ internal sealed class ColumnStatistics
     private double? _maximum;
     private double? _skewness;
     private double? _kurtosis;
-    private int _count;
 
     public ColumnStatistics(int count = default)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(count);
 
         if (count > default(int))
-            _values = new double[count];
+            _valuesArray = new double[count];
     }
 
     public void Add(double value)
-    {
-        if (_count == _values.Length)
-        {
-            Array.Resize(ref _values, _count == 0 ? 4 : _count * 2);
-        }
+        => _valuesList.Add(value);
 
-        _values[_count++] = value;
-    }
-    public double[] Values { get { return _values; } }
-    public double Mean => _mean ??= Accord.Statistics.Measures.Mean(_values);
-    public double Mode => _mode ??= Accord.Statistics.Measures.Mode(_values);
+    public List<double> Values => _valuesList;
+    public double[] ValuesArray => GetValuesArray();
+    public double Mean => _mean ??= Accord.Statistics.Measures.Mean(GetValuesArray());
+    public double Mode => _mode ??= Accord.Statistics.Measures.Mode(GetValuesArray());
     public double Q1 => _q1 ??= GetQ1();
     public double Median => _median ??= GetMedian();
     public double Q3 => _q3 ??= GetQ3();
-    public double StandardDeviation => _standardDeviation ??= Accord.Statistics.Measures.StandardDeviation(_values);
-    public double Variance => _variance ??= Accord.Statistics.Measures.Variance(_values);
-    public double Minimum => _minimum ??= _values.Min();
-    public double Maximum => _maximum ??= _values.Max(); 
-    public double Skewness => _skewness ??= Accord.Statistics.Measures.Skewness(_values);
-    public double Kurtosis => _kurtosis ??= Accord.Statistics.Measures.Kurtosis(_values);
+    public double StandardDeviation => _standardDeviation ??= Accord.Statistics.Measures.StandardDeviation(GetValuesArray());
+    public double Variance => _variance ??= Accord.Statistics.Measures.Variance(GetValuesArray());
+    public double Minimum => _minimum ??= GetValuesArray().Min();
+    public double Maximum => _maximum ??= GetValuesArray().Max();
+    public double Skewness => _skewness ??= Accord.Statistics.Measures.Skewness(GetValuesArray());
+    public double Kurtosis => _kurtosis ??= Accord.Statistics.Measures.Kurtosis(GetValuesArray());
+
+    private double[] GetValuesArray()
+    {
+        if (_valuesArray.Count() != _valuesList.Count)
+            _valuesArray = _valuesList.ToArray();
+
+        return _valuesArray;
+    }
 
 
     private double GetQ1()
     {
-        _median = Accord.Statistics.Measures.Quartiles(_values, out var q1, out double q3);
+        _median = Accord.Statistics.Measures.Quartiles(GetValuesArray(), out var q1, out var q3);
         _q1 = q1;
         _q3 = q3;
 
@@ -57,7 +60,7 @@ internal sealed class ColumnStatistics
 
     private double GetQ3()
     {
-        _median = Accord.Statistics.Measures.Quartiles(_values, out var q1, out double q3);
+        _median = Accord.Statistics.Measures.Quartiles(GetValuesArray(), out var q1, out var q3);
         _q1 = q1;
         _q3 = q3;
 
@@ -66,7 +69,7 @@ internal sealed class ColumnStatistics
 
     private double GetMedian()
     {
-        _median = Accord.Statistics.Measures.Quartiles(_values, out var q1, out double q3);
+        _median = Accord.Statistics.Measures.Quartiles(GetValuesArray(), out var q1, out var q3);
         _q1 = q1;
         _q3 = q3;
 

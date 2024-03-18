@@ -2,6 +2,7 @@
 using DataCrafter.Commands.DataFrame.FitDistributionsToCsvColumn;
 using DataCrafter.Commands.DataFrame.Generate;
 using DataCrafter.Commands.DataFrame.PlotCsvColumn;
+using DataCrafter.Commands.DataFrame.ShapiroWilk;
 using DataCrafter.Commands.DataFrame.SummariseCsv;
 using DataCrafter.Commands.DataFrameColumns.Cauchy;
 using DataCrafter.Commands.DataFrameColumns.Clear;
@@ -97,6 +98,8 @@ var serviceCollection = new ServiceCollection()
             .AddTransient<IValidator<PlotCsvColumnCommandSettings>, PlotCsvColumnCommandSettingsValidator>()
             .AddTransient<FitDistributionsToCsvColumnCommandSettings>()
             .AddTransient<IValidator<FitDistributionsToCsvColumnCommandSettings>, FitDistributionsToCsvColumnCommandSettingsValidator>()
+            .AddTransient<ShapiroWilkTestCommandSettings>()
+            .AddTransient<IValidator<ShapiroWilkTestCommandSettings>, ShapiroWilkTestCommandSettingsValidator>()
             .AddTransient<SummariseCsvCommandSettings>()
             .AddTransient<CsvStatisticsCommandSettings>()
             .ConfigureWritable<DataCrafterOptions>(configuration, DataCrafterOptions.SectionName)
@@ -205,6 +208,11 @@ app.Configure(config =>
         .WithAlias("f")
         .WithDescription("Ranks distributions for the given csv column data.")
         .WithExample(["data", "fit", "ColumnName"]);
+
+        data.AddCommand<ShapiroWilkTestCommand>("shapirowilk")
+        .WithAlias("shap")
+        .WithDescription("Performs the shapiro wilk test on the provided column to test for a Normal distribution.")
+        .WithExample(["data", "shapirowilk", "ColumnName"]);
     }
     ).WithAlias("d");
 
