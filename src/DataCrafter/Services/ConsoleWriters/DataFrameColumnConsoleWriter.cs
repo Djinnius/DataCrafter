@@ -172,7 +172,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
 
     private void PrintColumnStatisticsAsRows(Dictionary<string, DataColumn> columns)
     {
-        var table = new Table().LeftAligned().Title("CSV Data Statistics");
+        var table = _tableProvider.GetTable("CSV Data Statistics");
 
         table.AddColumn("[u]Column[/]");
         //table.AddColumn("[u]Data Type[/]");
@@ -214,7 +214,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
 
     private void PrintColumnStatisticsAsColumns(Dictionary<string, DataColumn> columns)
     {
-        var table = new Table().LeftAligned().Title("Table Schema Details");
+        var table = _tableProvider.GetTable("CSV Data Statistics");
 
         // Add a column for the statistics
         table.AddColumn("[u]Statistic[/]");
