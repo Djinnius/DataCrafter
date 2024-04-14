@@ -30,7 +30,7 @@ internal sealed class AddGammaDataFrameColumnCommand : AddDataFrameColumnCommand
         var dataFrameColumn = new DataFrameColumn
         {
             Name = settings.Name,
-            Type = settings.Type,
+            DataType = settings.Type,
             DistributionConfig = new GammaDistributionConfig { Shape = settings.Shape, Scale = settings.Scale },
             Seed = settings.Seed.IsSet ? settings.Seed.Value : 0,
             Ordinal = DetermineOrdinal(settings),

@@ -31,7 +31,7 @@ internal sealed class AddNormalDataFrameColumnCommand : AddDataFrameColumnComman
         var dataFrameColumn = new DataFrameColumn
         {
             Name = settings.Name,
-            Type = settings.Type,
+            DataType = settings.Type,
             DistributionConfig = new NormalDistributionConfig { Mean = settings.Mean, StandardDeviation = settings.StandardDeviation },
             Seed = settings.Seed.IsSet ? settings.Seed.Value : 0,
             Ordinal = DetermineOrdinal(settings),

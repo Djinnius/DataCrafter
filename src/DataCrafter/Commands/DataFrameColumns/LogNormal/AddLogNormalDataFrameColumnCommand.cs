@@ -31,7 +31,7 @@ internal sealed class AddLogNormalDataFrameColumnCommand : AddDataFrameColumnCom
         var dataFrameColumn = new DataFrameColumn
         {
             Name = settings.Name,
-            Type = settings.Type,
+            DataType = settings.Type,
             DistributionConfig = new LogNormalDistributionConfig { Mean = settings.Mean, StandardDeviation = settings.StandardDeviation },
             Seed = settings.Seed.IsSet ? settings.Seed.Value : 0,
             Ordinal = DetermineOrdinal(settings),

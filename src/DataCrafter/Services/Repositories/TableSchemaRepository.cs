@@ -14,8 +14,9 @@ namespace DataCrafter.Services.Repositories;
 internal sealed class TableSchemaRepository : ITableSchemaRepository
 {
     private static string _dataFile => Path.Combine(GetDataCrafterDirectory(), "columns.json");
+    private static JsonSerializerOptions _jsonSerializerOptions => new() { WriteIndented = true };
 
-    private IList<IDataFrameColumn> _dataFrameColumns = new List<IDataFrameColumn>();
+private IList<IDataFrameColumn> _dataFrameColumns = new List<IDataFrameColumn>();
     private readonly DataCrafterOptions _options;
 
     public TableSchemaRepository(IOptions<DataCrafterOptions> options)
@@ -81,42 +82,42 @@ internal sealed class TableSchemaRepository : ITableSchemaRepository
             new DataFrameColumn
             {
                 Name = "Cauchy",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new CauchyDistributionConfig { Location = 5, Scale = 2 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "Normal",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new NormalDistributionConfig { Mean = 0, StandardDeviation = 1 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "Exponential",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new ExponentialDistributionConfig { Rate = 0.5 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "Gamma",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new GammaDistributionConfig { Shape = 2, Scale = 0.5 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "LogNormal",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new LogNormalDistributionConfig { Mean = 0, StandardDeviation = 1 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "Uniform",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new UniformDistributionConfig { Min = 0, Max = 1 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             }
@@ -125,7 +126,7 @@ internal sealed class TableSchemaRepository : ITableSchemaRepository
 
     private void SaveRepository()
     {
-        var data = JsonSerializer.Serialize(_dataFrameColumns);
+        var data = JsonSerializer.Serialize(_dataFrameColumns, _jsonSerializerOptions);
         AnsiConsole.WriteLine(_dataFile);
         File.WriteAllText(_dataFile, data);
     }

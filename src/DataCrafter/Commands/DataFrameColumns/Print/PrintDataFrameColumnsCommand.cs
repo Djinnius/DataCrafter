@@ -4,6 +4,10 @@ using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace DataCrafter.Commands.DataFrameColumns.Print;
+
+/// <summary>
+///     Command to print columns from the currently loaded column configuration.
+/// </summary>
 internal sealed class PrintDataFrameColumnsCommand : Command<PrintDataFrameColumnsCommandSettings>
 {
     private readonly ITableSchemaRepository _tableSchemaRepository;

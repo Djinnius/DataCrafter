@@ -15,7 +15,7 @@ internal interface IDataFrameColumn
     /// <summary>
     ///     Gets the type of data to generate, e.g. double, int etc.
     /// </summary>
-    string Type { get; }
+    string DataType { get; }
 
     /// <summary>
     ///     Gets the distribution configuration used to generate data.

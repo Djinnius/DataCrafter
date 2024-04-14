@@ -48,6 +48,7 @@ internal class Main
 
     public async Task Execute()
     {
+        await Task.CompletedTask;
         var random = new Random(_options.Seed);
 
         IList<IDataFrameColumn> columns = new List<IDataFrameColumn>
@@ -55,42 +56,42 @@ internal class Main
             new DataFrameColumn
             {
                 Name = "Cauchy",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new CauchyDistributionConfig { Location = 10, Scale = 3 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "Normal",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new NormalDistributionConfig { Mean = 5, StandardDeviation = 3 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "Exponential",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new ExponentialDistributionConfig { Rate = 0.5 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "Gamma",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new GammaDistributionConfig { Shape = 3, Scale = 3 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "LogNormal",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new LogNormalDistributionConfig { Mean = 2, StandardDeviation = 3 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             },
             new DataFrameColumn
             {
                 Name = "Uniform",
-                Type = "double",
+                DataType = "double",
                 DistributionConfig = new UniformDistributionConfig { Min = 5, Max = 15 },
                 Seed = _options.IsDeterministic ? random.Next(int.MinValue, int.MaxValue) : 0
             }

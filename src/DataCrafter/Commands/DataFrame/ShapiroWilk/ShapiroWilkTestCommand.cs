@@ -86,35 +86,38 @@ internal sealed class ShapiroWilkTestCommand : Command<ShapiroWilkTestCommandSet
         csv.ReadHeader();
         var headers = csv.HeaderRecord;
 
+        if (headers is null)
+        {
+            _ansiConsole.MarkupLine("[red]No headers detected.[/]");
+            return;
+        }
+
         while (csv.Read())
         {
 
             var fieldValue = csv.GetField(header);
-            if (!string.IsNullOrWhiteSpace(fieldValue))
+            if (!string.IsNullOrWhiteSpace(fieldValue) && 
+                double.TryParse(fieldValue, out double value) && 
+                (value < lowerBound || value > upperBound))
             {
-                if (double.TryParse(fieldValue, out double value))
-                {
-                    if (value < lowerBound || value > upperBound)
-                    {
-                        var record = new StringBuilder();
-                        foreach (var h in headers)
-                        {
-                            record.Append(csv.GetField(h));
-                            record.Append(",");
-                        }
-                        // Remove the trailing comma
-                        record.Length--;
+                var record = new StringBuilder();
 
-                        _ansiConsole.WriteLine(record.ToString());
-                    }
+                foreach (var h in headers)
+                {
+                    record.Append(csv.GetField(h));
+                    record.Append(",");
                 }
+                // Remove the trailing comma
+                record.Length--;
+
+                _ansiConsole.WriteLine(record.ToString());
             }
         }
     }
 
-    private Dictionary<string, ColumnStatistics> CalculateStatistics(string filePath)
+    private Dictionary<string, DataColumn> CalculateStatistics(string filePath)
     {
-        var columnStatistics = new Dictionary<string, ColumnStatistics>();
+        var columnStatistics = new Dictionary<string, DataColumn>();
 
         using (var reader = new StreamReader(filePath))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
@@ -131,7 +134,7 @@ internal sealed class ShapiroWilkTestCommand : Command<ShapiroWilkTestCommandSet
                     if (!string.IsNullOrWhiteSpace(fieldValue))
                     {
                         if (!columnStatistics.ContainsKey(header))
-                            columnStatistics[header] = new ColumnStatistics();
+                            columnStatistics[header] = new DataColumn();
 
                         if (double.TryParse(fieldValue, out double value))
                         {

@@ -1,6 +1,7 @@
 ﻿using Accord.Statistics.Distributions;
 using Accord.Statistics.Distributions.Univariate;
 using DataCrafter.Entities;
+using DataCrafter.Services.Spectre;
 using Spectre.Console;
 
 namespace DataCrafter.Services.ConsoleWriters;
@@ -8,10 +9,14 @@ namespace DataCrafter.Services.ConsoleWriters;
 internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWriter
 {
     private readonly IAnsiConsole _ansiConsole;
+    private readonly ITableProvider _tableProvider;
 
-    public DataFrameColumnConsoleWriter(IAnsiConsole ansiConsole)
+    public DataFrameColumnConsoleWriter(
+        IAnsiConsole ansiConsole,
+        ITableProvider tableProvider)
     {
         _ansiConsole = ansiConsole;
+        _tableProvider = tableProvider;
     }
 
     public void PrintColumnsToConsole(IEnumerable<IDataFrameColumn> dataFrameColumns, bool columnsAsRows = false)
@@ -25,7 +30,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
         PrintDistributionStatisticsAsColumns(dataFrameColumns);
     }
 
-    public void PrintColumnsToConsole(Dictionary<string, ColumnStatistics> columns, bool columnsAsRows = false)
+    public void PrintColumnsToConsole(Dictionary<string, DataColumn> columns, bool columnsAsRows = false)
     {
         if (columnsAsRows)
         {
@@ -38,7 +43,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
 
     private void PrintDistributionStatisticsAsRows(IEnumerable<IDataFrameColumn> dataFrameColumns)
     {
-        var table = new Table().LeftAligned().Title("Table Schema Details");
+        var table = _tableProvider.GetTable("Table Schema Details");
 
         table.AddColumn("[u]Column[/]");
         table.AddColumn("[u]Data Type[/]");
@@ -59,7 +64,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
             {
                 table.AddRow(
                     $"[bold yellow]{dataFrameColumn.Name}[/]",
-                    $"[bold yellow]{dataFrameColumn.Type}[/]",
+                    $"{dataFrameColumn.DataType}",
                     distribution.ToString() ?? string.Empty,
                     distribution.Mean.ToString("F2"),
                     distribution.Mode.ToString("F2"),
@@ -77,7 +82,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
             {
                 table.AddRow(
                     dataFrameColumn.Name,
-                    dataFrameColumn.Type,
+                    dataFrameColumn.DataType,
                     multivariateDistribution.ToString() ?? string.Empty,
                     string.Join(",", multivariateDistribution.Mean.Select(x => x.ToString("F2"))),
                     string.Join(",", multivariateDistribution.Mode.Select(x => x.ToString("F2"))),
@@ -97,7 +102,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
 
     private void PrintDistributionStatisticsAsColumns(IEnumerable<IDataFrameColumn> dataFrameColumns)
     {
-        var table = new Table().LeftAligned().Title("Table Schema Details");
+        var table = _tableProvider.GetTable("Table Schema Details");
 
         // Add a column for the statistics
         table.AddColumn("[u]Statistic[/]");
@@ -137,7 +142,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
         {
             if (dataFrameColumn.Distribution is IUnivariateDistribution univariateDistribution)
             {
-                statisticsByType["Data Type"].Add(dataFrameColumn.Type);
+                statisticsByType["Data Type"].Add(dataFrameColumn.DataType);
                 statisticsByType["Distribution"].Add(univariateDistribution?.ToString() ?? string.Empty);
                 statisticsByType["Mean"].Add(univariateDistribution!.Mean.ToString("F2"));
                 statisticsByType["Mode"].Add(univariateDistribution.Mode.ToString("F2"));
@@ -165,7 +170,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
         return statisticsByType;
     }
 
-    private void PrintColumnStatisticsAsRows(Dictionary<string, ColumnStatistics> columns)
+    private void PrintColumnStatisticsAsRows(Dictionary<string, DataColumn> columns)
     {
         var table = new Table().LeftAligned().Title("CSV Data Statistics");
 
@@ -207,7 +212,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
         _ansiConsole.Write(table);
     }
 
-    private void PrintColumnStatisticsAsColumns(Dictionary<string, ColumnStatistics> columns)
+    private void PrintColumnStatisticsAsColumns(Dictionary<string, DataColumn> columns)
     {
         var table = new Table().LeftAligned().Title("Table Schema Details");
 
@@ -226,7 +231,7 @@ internal sealed class DataFrameColumnConsoleWriter : IDataFrameColumnConsoleWrit
         _ansiConsole.Write(table);
     }
 
-    private Dictionary<string, List<string>> GetColumnStatistics(Dictionary<string, ColumnStatistics> columns)
+    private Dictionary<string, List<string>> GetColumnStatistics(Dictionary<string, DataColumn> columns)
     {
         var statisticsByType = new Dictionary<string, List<string>>
         {

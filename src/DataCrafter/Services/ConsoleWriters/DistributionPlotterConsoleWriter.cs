@@ -59,7 +59,7 @@ internal sealed class DistributionPlotterConsoleWriter : IDistributionPlotterCon
         _ansiConsole.Write(chart);
     }
 
-    public void PlotHistogram(ColumnStatistics columnStatistics, int numPoints = 20, string name = "")
+    public void PlotHistogram(DataColumn columnStatistics, int numPoints = 20, string name = "")
     {
         var chart = new BarChart()
             .Width(80)

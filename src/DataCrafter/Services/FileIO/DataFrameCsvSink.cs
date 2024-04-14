@@ -1,11 +1,11 @@
-﻿using System.Globalization;
-using Bogus;
+﻿using Bogus;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 using DataCrafter.Entities;
 using DataCrafter.Services.Bogus;
 using Spectre.Console;
+using System.Globalization;
 
 namespace DataCrafter.Services.FileIO;
 

@@ -27,10 +27,10 @@ internal sealed class FakeProvider : IFakeProvider
 
                 foreach (var dataFrameColumn in dataFrameColumns)
                 {
-                    if (_dataTypeProvider.IntAliases.Contains(dataFrameColumn.Type))
+                    if (_dataTypeProvider.IntAliases.Contains(dataFrameColumn.DataType))
                         dynamicObject.Add(dataFrameColumn.Name, Math.Round(GenerateDistributionValue(dataFrameColumn)));
 
-                    if (_dataTypeProvider.DoubleAliases.Contains(dataFrameColumn.Type))
+                    if (_dataTypeProvider.DoubleAliases.Contains(dataFrameColumn.DataType))
                         dynamicObject.Add(dataFrameColumn.Name, GenerateDistributionValue(dataFrameColumn));
                 }
 

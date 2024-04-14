@@ -11,7 +11,7 @@ internal class DataFrameColumn : IDataFrameColumn
 
     public string Name { get; set; } = string.Empty;
 
-    public string Type { get; set; } = string.Empty;
+    public string DataType { get; set; } = string.Empty;
 
     public IDistributionConfig DistributionConfig { get; set; } = new NormalDistributionConfig { Mean = 5, StandardDeviation = 1 };
 

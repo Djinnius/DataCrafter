@@ -30,7 +30,7 @@ internal sealed class AddExponentialDataFrameColumnCommand : AddDataFrameColumnC
         var dataFrameColumn = new DataFrameColumn
         {
             Name = settings.Name,
-            Type = settings.Type,
+            DataType = settings.Type,
             DistributionConfig = new ExponentialDistributionConfig { Rate = settings.Rate },
             Seed = settings.Seed.IsSet ? settings.Seed.Value : 0,
             Ordinal = DetermineOrdinal(settings),

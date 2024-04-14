@@ -31,6 +31,7 @@ using DataCrafter.Services.Main;
 using DataCrafter.Services.Mappers;
 using DataCrafter.Services.Options;
 using DataCrafter.Services.Repositories;
+using DataCrafter.Services.Spectre;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -71,6 +72,7 @@ var serviceCollection = new ServiceCollection()
             .AddSingleton<IDataFrameCsvSink, DataFrameCsvSink>()
             .AddSingleton<IDefaultOptionsService, DefaultOptionsService>()
             .AddSingleton<IOptionsWriter, OptionsWriter>()
+            .AddSingleton<ITableProvider, TableProvider>()
             .AddSingleton(typeof(IWritableOptions<>), typeof(WritableOptions<>))
             .AddTransient<EmptyCommandSettings>()
             .AddTransient<PrintDataFrameColumnsCommandSettings>()

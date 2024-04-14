@@ -30,7 +30,7 @@ internal sealed class AddUniformDataFrameColumnCommand : AddDataFrameColumnComma
         var dataFrameColumn = new DataFrameColumn
         {
             Name = settings.Name,
-            Type = settings.Type,
+            DataType = settings.Type,
             DistributionConfig = new UniformDistributionConfig { Min = settings.Min, Max = settings.Max },
             Seed = settings.Seed.IsSet ? settings.Seed.Value : 0,
             Ordinal = DetermineOrdinal(settings),

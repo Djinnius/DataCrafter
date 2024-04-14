@@ -72,9 +72,9 @@ internal sealed class PlotCsvColumnCommand : Command<PlotCsvColumnCommandSetting
         return 0;
     }
 
-    private Dictionary<string, ColumnStatistics> CalculateStatistics(string filePath)
+    private Dictionary<string, DataColumn> CalculateStatistics(string filePath)
     {
-        var columnStatistics = new Dictionary<string, ColumnStatistics>();
+        var columnStatistics = new Dictionary<string, DataColumn>();
 
         using (var reader = new StreamReader(filePath))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
@@ -88,7 +88,7 @@ internal sealed class PlotCsvColumnCommand : Command<PlotCsvColumnCommandSetting
                 foreach (var header in headers!)
                 {
                     if (!columnStatistics.ContainsKey(header))
-                        columnStatistics[header] = new ColumnStatistics();
+                        columnStatistics[header] = new DataColumn();
 
                     var value = csv.GetField<double>(header);
                     columnStatistics[header].Add(value);
