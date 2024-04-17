@@ -1,12 +1,12 @@
-﻿using CsvHelper;
-using System.Globalization;
+﻿using Accord.Statistics.Analysis;
+using Accord.Statistics.Distributions;
+using CsvHelper;
+using DataCrafter.Entities;
+using DataCrafter.Services.Distributions;
+using FluentValidation;
 using Spectre.Console;
 using Spectre.Console.Cli;
-using FluentValidation;
-using Accord.Statistics.Analysis;
-using DataCrafter.Services.Distributions;
-using Accord.Statistics.Distributions;
-using DataCrafter.Entities;
+using System.Globalization;
 
 namespace DataCrafter.Commands.DataFrame.FitDistributionsToCsvColumn;
 internal sealed class FitDistributionsToCsvColumnCommand : Command<FitDistributionsToCsvColumnCommandSettings>

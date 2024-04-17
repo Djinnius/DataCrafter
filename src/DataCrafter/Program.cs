@@ -1,4 +1,5 @@
 ﻿using DataCrafter.Commands.DataFrame.CsvStatistics;
+using DataCrafter.Commands.DataFrame.DetectDistributionOutliers;
 using DataCrafter.Commands.DataFrame.FitDistributionsToCsvColumn;
 using DataCrafter.Commands.DataFrame.Generate;
 using DataCrafter.Commands.DataFrame.PlotCsvColumn;
@@ -102,6 +103,8 @@ var serviceCollection = new ServiceCollection()
             .AddTransient<IValidator<FitDistributionsToCsvColumnCommandSettings>, FitDistributionsToCsvColumnCommandSettingsValidator>()
             .AddTransient<ShapiroWilkTestCommandSettings>()
             .AddTransient<IValidator<ShapiroWilkTestCommandSettings>, ShapiroWilkTestCommandSettingsValidator>()
+            .AddTransient<DetectDistributionOutliersCommandSettings>()
+            .AddTransient<IValidator<DetectDistributionOutliersCommandSettings>, DetectDistributionOutliersCommandSettingsValidator>()
             .AddTransient<SummariseCsvCommandSettings>()
             .AddTransient<CsvStatisticsCommandSettings>()
             .ConfigureWritable<DataCrafterOptions>(configuration, DataCrafterOptions.SectionName)
@@ -215,6 +218,11 @@ app.Configure(config =>
         .WithAlias("shap")
         .WithDescription("Performs the shapiro wilk test on the provided column to test for a Normal distribution.")
         .WithExample(["data", "shapirowilk", "ColumnName"]);
+
+        data.AddCommand<DetectDistributionOutliersCommand>("outliers")
+        .WithAlias("o")
+        .WithDescription("Fits a specified distribution to column data and determines outliers under a given p value threshold for the distribution's probability density function.")
+        .WithExample(["data", "outliers", "ColumnName", "Normal"]);
     }
     ).WithAlias("d");
 

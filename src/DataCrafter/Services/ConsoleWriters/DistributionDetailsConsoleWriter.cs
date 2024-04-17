@@ -45,8 +45,8 @@ internal sealed partial class DistributionDetailsConsoleWriter : IDistributionDe
             .AddColumn("Fitting Options");
 
         var sortedDistributions = orderByDescending
-            ? distributions.Select(d => _distributionInfoService.GetDistributionProperties(d)).OrderByDescending(_orderFunctions[orderBy])
-            : distributions.Select(d => _distributionInfoService.GetDistributionProperties(d)).OrderBy(_orderFunctions[orderBy]);
+            ? distributions.Select(_distributionInfoService.GetDistributionProperties).OrderByDescending(_orderFunctions[orderBy])
+            : distributions.Select(_distributionInfoService.GetDistributionProperties).OrderBy(_orderFunctions[orderBy]);
 
         foreach (var distributionInfo in sortedDistributions)
             AddRow(distributionTable, distributionInfo, GetRowColour(colourBy, distributionInfo));

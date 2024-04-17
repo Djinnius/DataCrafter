@@ -82,6 +82,30 @@ internal sealed class DistributionPlotterConsoleWriter : IDistributionPlotterCon
         _ansiConsole.Write(chart);
     }
 
+    public void PlotHistogramWithOutliers(DataColumn columnStatistics, double maxOutlerBelowMean, double minOutlierAboveMean, int numPoints = 40, string name = "")
+    {
+        var chart = new BarChart()
+            .Width(80)
+            .Label($"{name} Histogram");
+
+        var min = Math.Floor(columnStatistics.Minimum);
+        var max = Math.Ceiling(columnStatistics.Maximum);
+        var step = (max - min) / (numPoints - 1);
+        var buckets = Bucketise(columnStatistics.Values, min, max, numPoints);
+        var values = new List<(double x, double y)>();
+
+        for (var i = 0; i < numPoints; i++)
+        {
+            var x = min + i * step;
+            var y = buckets[i];
+            values.Add((x, y));
+        }
+
+        var colorFunc = ((double x, double y) val) => val.x <= maxOutlerBelowMean ? Color.LightSkyBlue1 : val.x >= minOutlierAboveMean ? Color.LightPink1 : Color.LightGreen;
+        chart.AddItems(values, value => new BarChartItem(value.x.ToString("N2"), Math.Round(value.y, 3), colorFunc(value)));
+        _ansiConsole.Write(chart);
+    }
+
     private enum BucketizeDirection
     {
         LowerBoundInclusive,

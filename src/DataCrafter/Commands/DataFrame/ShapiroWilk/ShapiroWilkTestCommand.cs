@@ -4,7 +4,6 @@ using DataCrafter.Entities;
 using FluentValidation;
 using Spectre.Console;
 using Spectre.Console.Cli;
-using System.Data.Common;
 using System.Globalization;
 using System.Text;
 
@@ -73,7 +72,6 @@ internal sealed class ShapiroWilkTestCommand : Command<ShapiroWilkTestCommandSet
             DetectOutliers(inputFilePath, settings.Name, lowerBound, upperBound);
         }
 
-
         return 0;
     }
 
@@ -96,8 +94,8 @@ internal sealed class ShapiroWilkTestCommand : Command<ShapiroWilkTestCommandSet
         {
 
             var fieldValue = csv.GetField(header);
-            if (!string.IsNullOrWhiteSpace(fieldValue) && 
-                double.TryParse(fieldValue, out double value) && 
+            if (!string.IsNullOrWhiteSpace(fieldValue) &&
+                double.TryParse(fieldValue, out double value) &&
                 (value < lowerBound || value > upperBound))
             {
                 var record = new StringBuilder();

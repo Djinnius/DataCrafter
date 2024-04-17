@@ -1,5 +1,4 @@
-﻿using DataCrafter.Commands.DataFrame.ShapiroWilk;
-using DataCrafter.Commands.Distributions.Details;
+﻿using DataCrafter.Commands.DataFrame.DetectDistributionOutliers;
 using DataCrafter.Entities;
 using DataCrafter.Options;
 using DataCrafter.Options.WritableOptions;
@@ -8,8 +7,10 @@ using DataCrafter.Services.Bogus;
 using DataCrafter.Services.ConsoleWriters;
 using DataCrafter.Services.Distributions;
 using DataCrafter.Services.FileIO;
+using DataCrafter.Services.Mappers;
 using Microsoft.Extensions.Options;
 using Spectre.Console;
+using Spectre.Console.Cli;
 
 namespace DataCrafter.Services.Main;
 internal class Main
@@ -97,7 +98,12 @@ internal class Main
             }
         };
 
-        var command = new ShapiroWilkTestCommand(AnsiConsole.Console, null);
+        var command = new DetectDistributionOutliersCommand(AnsiConsole.Console, new DetectDistributionOutliersCommandSettingsValidator(), new DistributionProvider(), new DistributionInfoService(), new DistributionPlotterConsoleWriter(new DistributionColorMapper(), AnsiConsole.Console));
+        var settings = new DetectDistributionOutliersCommandSettings { Distribution = "Exponential", Name = "Exponential", Input = new FlagValue<string> { Value = "C:\\Users\\jonat\\source\\repos\\DataCrafter\\src\\DataCrafter\\data.csv", IsSet = true }, Threshold = new FlagValue<double> { Value = 0.10, IsSet = true } };
+        var commandContext = new CommandContext(new RemainingArgs(), "Test", null);
+
+        command.Execute(commandContext, settings);
+
         //command.Test();
 
         //_apiKeyOptions.Update(x => x.OpenAI = "Test");
@@ -233,5 +239,14 @@ internal class Main
 
         //AnsiConsole.Write(resultTable2);
 
+    }
+
+
+
+    private class RemainingArgs : IRemainingArguments
+    {
+        public ILookup<string, string?> Parsed => throw new NotImplementedException();
+
+        public IReadOnlyList<string> Raw => throw new NotImplementedException();
     }
 }
